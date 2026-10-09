@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مكتبة آل الصدر</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Cairo) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sadrGold: '#D4AF37',
+                        sadrDark: '#111827',
+                        sadrEmerald: '#065F46',
+                        sadrCard: '#1F2937'
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #0b0f19;
+            color: #f3f4f6;
+        }
+        .glass-effect {
+            background: rgba(31, 41, 55, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #111827;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #D4AF37;
+            border-radius: 3px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-start selection:bg-sadrGold selection:text-black">
+
+    <!-- 1. شاشة البداية (Splash Screen) -->
+    <div id="splash-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-sadrDark transition-opacity duration-700">
+        <div class="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-sadrGold shadow-2xl shadow-sadrGold/30 mb-8 animate-pulse">
+            <img src="1000300501_3.jpg" alt="أيقونة التطبيق" class="w-full h-full object-cover">
+        </div>
+        <h1 class="text-3xl md:text-4xl font-bold text-center gold-gradient mb-8 tracking-wide px-4">
+            السلام على آل الصدر الكرام
+        </h1>
+        <button onclick="enterApp()" class="px-8 py-3.5 bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-600 text-black font-bold text-lg rounded-full shadow-lg hover:shadow-sadrGold/50 hover:scale-105 transition-all duration-300 flex items-center gap-3">
+            <span>دخول المكتبة</span>
+            <i class="fas fa-arrow-left"></i>
+        </button>
+    </div>
+
+    <!-- التطبيق الرئيسي -->
+    <div id="main-app" class="w-full max-w-md md:max-w-2xl min-h-screen flex flex-col hidden pb-12">
+        
+        <!-- هيدر التطبيق -->
+        <header class="sticky top-0 z-40 glass-effect px-6 py-4 flex items-center justify-between border-b border-sadrGold/20 shadow-lg">
+            <div class="flex items-center gap-3">
+                <button id="back-btn" onclick="goHome()" class="hidden text-sadrGold hover:text-white transition-colors p-2 rounded-lg bg-sadrDark/50">
+                    <i class="fas fa-arrow-right text-lg"></i>
+                </button>
+                <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-sadrGold">
+                    <img src="1000300501_3.jpg" alt="شعار" class="w-full h-full object-cover">
+                </div>
+                <h2 class="text-xl font-bold gold-gradient">مكتبة آل الصدر</h2>
+            </div>
+            <div class="text-xs text-sadrGold/80 bg-sadrDark px-3 py-1.5 rounded-full border border-sadrGold/30">
+                مرجع تراثي
+            </div>
+        </header>
+
+        <!-- المحتوى الرئيسي (الشاشة الرئيسية - الأقسام الأربعة) -->
+        <main id="content-container" class="flex-1 p-4 md:p-6 space-y-4 custom-scrollbar">
+            <!-- سيتم تعبئتها ديناميكياً عبر الجافاسكريبت -->
+        </main>
+
+        <!-- تذييل الصفحة -->
+        <footer class="text-center py-4 text-xs text-gray-500 border-t border-gray-800 mt-auto">
+            جميع الحقوق محفوظة لمكتبة آل الصدر &copy; 2026
+        p>
+    </div>
+
+    <!-- جافاسكريبت التطبيق -->
+    <script>
+        // بيانات الأقسام الرئيسية
+        const sectionsData = [
+            {
+                id: 1,
+                title: "السيد محمد باقر الصدر",
+                image: "1000300442_3.jpg",
+                subtitle: "فكر، إسهامات، وتراث علمي عظيم",
+                type: "main"
+            },
+            {
+                id: 2,
+                title: "السيد محمد محمد صادق الصدر",
+                image: "1000300441_3.jpg",
+                subtitle: "موسوعة الحوزة الناطقة وتراثها الخالد",
+                type: "main"
+            },
+            {
+                id: 3,
+                title: "السيد القائد مقتدى الصدر",
+                image: "1000300443_3.jpg",
+                subtitle: "المواقف الجهادية والخطابات الإصلاحية",
+                type: "main"
+            },
+            {
+                id: 4,
+                title: "باقي آل الصدر",
+                image: "1000300445_3.jpg",
+                subtitle: "أعلام العائلة الكريمة والسير الذاتية",
+                type: "family"
+            }
+        ];
+
+        // خيارات الأقسام 1, 2, 3
+        const standardOptions = [
+            { key: "who", name: "من هو", icon: "fa-user-circle" },
+            { key: "life", name: "حياته", icon: "fa-book-reader" },
+            { key: "writings", name: "كتاباته", icon: "fa-book" },
+            { key: "stances", name: "مواقفه", icon: "fa-shield-alt" },
+            { key: "speeches", name: "الخطب", icon: "fa-microphone-alt" },
+            { key: "lessons", name: "الدروس", icon: "fa-graduation-cap" },
+            { key: "trends", name: "التوجهات", icon: "fa-compass" }
+        ];
+
+        // خيارات القسم الرابع (باقي آل الصدر)
+        const familyOptions = [
+            { name: "السيد مصطفى الصدر", image: "1000300502_2.jpg", desc: "نبذة تعريفية شاملة عن حياته وشهادته" },
+            { name: "السيد مؤمل الصدر", image: "1000300445_3.jpg", desc: "سيرة ومواقف علمية وجهادية" },
+            { name: "السيد مرتضى الصدر", image: "1000300445_3.jpg", desc: "مسيرته العلمية والتبليغية" },
+            { name: "السيد جعفر محمد الصدر", image: "1000300445_3.jpg", desc: "الإسهامات العلمية والفكرية" },
+            { name: "العلوية بنت الهدى", image: "1000300445_3.jpg", desc: "الرائدة الإسلامية والأدبية الشهيدة" },
+            { name: "السيد أحمد السيد مصطفى الصدر", image: "1000300445_3.jpg", desc: "سيرة ذاتية مباركة" },
+            { name: "السيد صادق السيد مصطفى الصدر", image: "1000300445_3.jpg", desc: "سيرة ذاتية مباركة" },
+            { name: "السيد علي السيد مؤمل الصدر", image: "1000300445_3.jpg", desc: "سيرة ذاتية مباركة" }
+        ];
+
+        let navigationStack = [];
+
+        function enterApp() {
+            const splash = document.getElementById('splash-screen');
+            const mainApp = document.getElementById('main-app');
+            splash.classList.add('opacity-0');
+            setTimeout(() => {
+                splash.style.display = 'none';
+                mainApp.classList.remove('hidden');
+                renderHome();
+            }, 700);
+        }
+
+        function renderHome() {
+            navigationStack = [];
+            document.getElementById('back-btn').classList.add('hidden');
+            const container = document.getElementById('content-container');
+            container.innerHTML = '';
+
+            const headerTitle = document.createElement('div');
+            headerTitle.className = "text-center py-3 mb-2";
+            headerTitle.innerHTML = `<h3 class="text-lg font-semibold text-gray-300">اختر القسم الرئيسي للمكتبة</h3>`;
+            container.appendChild(headerTitle);
+
+            sectionsData.forEach(section => {
+                const card = document.createElement('div');
+                card.className = "group relative bg-sadrCard rounded-2xl overflow-hidden border border-sadrGold/20 shadow-xl hover:border-sadrGold transition-all duration-300 cursor-pointer flex items-center p-4 gap-4 animate-fade-in";
+                card.onclick = () => openSection(section);
+
+                card.innerHTML = `
+                    <div class="relative w-24 h-24 md:w-28 md:h-28 rounded-xl overflow-hidden shrink-0 border-2 border-sadrGold/40 group-hover:scale-105 transition-transform">
+                        <img src="${section.image}" alt="${section.title}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xl md:text-2xl font-bold text-sadrGold mb-1 group-hover:text-yellow-300 transition-colors">${section.title}</h3>
+                        <p class="text-sm text-gray-300 line-clamp-2">${section.subtitle}</p>
+                    </div>
+                    <div class="text-sadrGold/60 group-hover:text-sadrGold group-hover:translate-x-1 transition-all">
+                        <i class="fas fa-chevron-left text-xl"></i>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function openSection(section) {
+            navigationStack.push(renderHome);
+            document.getElementById('back-btn').classList.remove('hidden');
+            const container = document.getElementById('content-container');
+            container.innerHTML = '';
+
+            // رأس القسم المختار
+            const banner = document.createElement('div');
+            banner.className = "flex items-center gap-4 bg-sadrCard p-4 rounded-2xl border border-sadrGold/30 mb-6";
+            banner.innerHTML = `
+                <div class="w-16 h-16 rounded-xl overflow-hidden border border-sadrGold shrink-0">
+                    <img src="${section.image}" class="w-full h-full object-cover">
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold text-sadrGold">${section.title}</h2>
+                    <p class="text-xs text-gray-400">استعرض الخيارات المتاحة أدناه</p>
+                </div>
+            `;
+            container.appendChild(banner);
+
+            const optionsList = document.createElement('div');
+            optionsList.className = "space-y-3 animate-fade-in";
+
+            if (section.type === "main") {
+                standardOptions.forEach(opt => {
+                    const item = document.createElement('div');
+                    item.className = "bg-gray-800/80 hover:bg-gray-800 border border-gray-700 hover:border-sadrGold/50 p-4 rounded-xl flex items-center justify-between cursor-pointer transition-all shadow-md group";
+                    item.onclick = () => handleOptionClick(section.id, opt.key, section);
+                    item.innerHTML = `
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-sadrGold/10 flex items-center justify-center text-sadrGold group-hover:bg-sadrGold group-hover:text-black transition-colors">
+                                <i class="fas ${opt.icon}"></i>
+                            </div>
+                            <span class="font-semibold text-lg text-gray-200 group-hover:text-sadrGold transition-colors">${opt.name}</span>
+                        </div>
+                        <i class="fas fa-chevron-left text-gray-500 group-hover:text-sadrGold"></i>
+                    `;
+                    optionsList.appendChild(item);
+                });
+            } else if (section.type === "family") {
+                familyOptions.forEach(fam => {
+                    const item = document.createElement('div');
+                    item.className = "bg-gray-800/80 hover:bg-gray-800 border border-gray-700 hover:border-sadrGold/50 p-4 rounded-xl flex items-center gap-4 cursor-pointer transition-all shadow-md group";
+                    item.onclick = () => handleFamilyMemberClick(fam);
+                    item.innerHTML = `
+                        <div class="w-12 h-12 rounded-full overflow-hidden border border-sadrGold/50 shrink-0">
+                            <img src="${fam.image}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-lg text-sadrGold group-hover:text-yellow-300">${fam.name}</h4>
+                            <p class="text-xs text-gray-400">${fam.desc}</p>
+                        </div>
+                        <i class="fas fa-chevron-left text-gray-500 group-hover:text-sadrGold"></i>
+                    `;
+                    optionsList.appendChild(item);
+                });
+            }
+
+            container.appendChild(optionsList);
+        }
+
+        function handleOptionClick(sectionId, optionKey, section) {
+            // التحقق من خيار كتاباته للقسم الثالث (السيد مقتدى الصدر)
+            if (sectionId === 3 && optionKey === "writings") {
+                showPdfReader();
+                return;
+            }
+
+            navigationStack.push(() => openSection(section));
+            const container = document.getElementById('content-container');
+            container.innerHTML = `
+                <div class="bg-sadrCard p-6 rounded-2xl border border-sadrGold/30 text-center space-y-4 animate-fade-in">
+                    <h3 class="text-2xl font-bold text-sadrGold">${optionKeyName(optionKey)}</h3>
+                    <p class="text-gray-300 leading-relaxed">جاري إدراج ومراجعة المحتوى الخاص بـ (${section.title}) - قسم (${optionKeyName(optionKey)})... ترقبوا التحديث القريب.</p>
+                    <button onclick="goBack()" class="px-6 py-2 bg-sadrGold text-black font-bold rounded-lg shadow hover:bg-yellow-400 transition-colors">العودة للخيارات</button>
+                </div>
+            `;
+        }
+
+        function optionKeyName(key) {
+            const map = {
+                who: "من هو",
+                life: "حياته",
+                writings: "كتاباته",
+                stances: "مواقفه",
+                speeches: "الخطب",
+                lessons: "الدروس",
+                trends: "التوجهات"
+            };
+            return map[key] || key;
+        }
+
+        function handleFamilyMemberClick(fam) {
+            if (fam.name === "السيد مصطفى الصدر") {
+                showMustafaPage();
+            } else {
+                navigationStack.push(() => openSection(sectionsData[3]));
+                const container = document.getElementById('content-container');
+                container.innerHTML = `
+                    <div class="bg-sadrCard p-6 rounded-2xl border border-sadrGold/30 text-center space-y-4 animate-fade-in">
+                        <div class="w-24 h-24 mx-auto rounded-full overflow-hidden border-2 border-sadrGold mb-4">
+                            <img src="${fam.image}" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="text-2xl font-bold text-sadrGold">${fam.name}</h3>
+                        <p class="text-gray-300 leading-relaxed">تفاصيل سيرته ومؤلفاته قيد التحديث المستمر لإضافتها ضمن مكتبة آل الصدر.</p>
+                        <button onclick="goBack()" class="px-6 py-2 bg-sadrGold text-black font-bold rounded-lg shadow hover:bg-yellow-400 transition-colors">العودة للقائمة</button>
+                    </div>
+                `;
+            }
+        }
+
+        // واجهة السيد مصطفى الصدر المطلوبة بالتفصيل مع الصورة السادسة (1000300502_2.jpg)
+        function showMustafaPage() {
+            navigationStack.push(() => openSection(sectionsData[3]));
+            const container = document.getElementById('content-container');
+            container.innerHTML = `
+                <div class="bg-sadrCard p-6 rounded-2xl border border-sadrGold/30 space-y-6 animate-fade-in custom-scrollbar">
+                    <div class="w-full h-64 md:h-80 rounded-2xl overflow-hidden border-2 border-sadrGold shadow-2xl">
+                        <img src="1000300502_2.jpg" alt="السيد مصطفى الصدر" class="w-full h-full object-cover">
+                    </div>
+                    <div class="space-y-4 text-gray-200 text-justify leading-relaxed text-base md:text-lg border-t border-sadrGold/20 pt-4">
+                        <p class="font-bold text-sadrGold text-xl text-center mb-2">هو مصطفى محمد محمد صادق الصدر.</p>
+                        <p><strong>ولد في عام 1964</strong> في الكاظمية المقدسة.</p>
+                        <p>وهو الابن الأكبر لسلطان المراجع.</p>
+                        <p>كنيته: أبو أحمد.</p>
+                        <p>والد كل من: أحمد، صادق، زهراء، حسنات.</p>
+                        <p>وأخ لكل من: السيد مؤمل، السيد مقتدى، السيد مرتضى.</p>
+                        <p><strong>استشهد في عام 1999</strong> في الحنانة مع والده على يد البعث الكافر.</p>
+                        
+                        <div class="bg-sadrDark/80 p-4 rounded-xl border border-sadrGold/40 mt-4">
+                            <h4 class="font-bold text-sadrGold mb-3 text-lg border-b border-sadrGold/20 pb-2">أبرز المهام والمناصب:</h4>
+                            <ul class="list-disc list-inside space-y-2 text-sm md:text-base text-gray-300">
+                                <li>كان يشارك بشكل مستمر في ندوات وتجمعات دينية داخل العراق بالنيابة عن والده.</li>
+                                <li>تم تعيينه كقاضي حوزوي في محافظة النجف الأشرف.</li>
+                                <li>تم تعيينه إماماً للجمعة في الحرم الحسيني الشريف.</li>
+                                <li>كان المتفاوض والمنسق الأول في حال اضطر لتفاوض مع الدولة.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="text-center pt-2">
+                        <button onclick="goBack()" class="px-6 py-2.5 bg-sadrGold text-black font-bold rounded-lg shadow-lg hover:bg-yellow-400 transition-colors">العودة</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // قارئ ملف الـ PDF الخاص بكتابات السيد مقتدى الصدر ("البكاء في الشريعة الإسلامية")
+        function showPdfReader() {
+            navigationStack.push(() => openSection(sectionsData[2]));
+            const container = document.getElementById('content-container');
+            container.innerHTML = `
+                <div class="bg-sadrCard p-5 rounded-2xl border border-sadrGold/30 space-y-4 animate-fade-in">
+                    <div class="flex items-center justify-between border-b border-sadrGold/20 pb-3">
+                        <div>
+                            <h3 class="text-lg font-bold text-sadrGold">كتاب: البكاء في الشريعة الإسلامية</h3>
+                            <p class="text-xs text-gray-400">سماحة السيد القائد مقتدى الصدر</p>
+                        </div>
+                        <a href="البكاء في الشريعة الإسلامية .pdf" download class="px-4 py-2 bg-sadrGold text-black text-xs font-bold rounded-lg shadow hover:bg-yellow-400 transition-colors flex items-center gap-2">
+                            <i class="fas fa-download"></i>
+                            <span>تحميل PDF</span>
+                        </a>
+                    </div>
+                    
+                    <!-- عرض محتوى الكتاب المستخرج بدقة وتنسيق أنيق مخصص للقراءة -->
+                    <div class="bg-gray-900/90 p-5 rounded-xl border border-gray-700 max-h-[60vh] overflow-y-auto custom-scrollbar space-y-4 text-sm md:text-base text-gray-200 leading-relaxed text-justify">
+                        <div class="text-center border-b border-gray-800 pb-4 mb-4">
+                            <h4 class="text-xl font-bold gold-gradient">البكاء في الشريعة الإسلامية</h4>
+                            <p class="text-xs text-sadrGold mt-1">بحث استدلالي مبسط ونقاشات مختصرة</p>
+                            <p class="text-xs text-gray-400">السيد مقتدى الصدر</p>
+                        </div>
+
+                        <div class="space-y-3">
+                            <h5 class="font-bold text-sadrGold text-base">بسم الله الرحمن الرحيم</h5>
+                            <p>قد لا يخفى على القارئ اللبيب ما ورد من روايات في حق أهل البيت سلام الله عليهم أجمعين، بل وحتى الآيات، وطبعاً لا نريد في هذا المختصر ذكر تلك الروايات فهي تحتاج إلى المجلدات الطوال وإلى الوقت الطويل، لكن أحب هنا ذكر ما يتعلق بإمامنا الحسين (سلام الله عليه) وبالخصوص ما ورد باستحباب البكاء عليه.</p>
+                            <p>فسنناقش هذا الأمر وما يترتب عليه من إشكالات، وسنحاول الرد عليها بما لا يخرج الكتاب عن اختصاره، وسيكون على فصلين:</p>
+                            
+                            <div class="bg-sadrDark p-3 rounded-lg border-r-4 border-sadrGold my-3">
+                                <h6 class="font-bold text-sadrGold">الفصل الأول: ((الحلّية أولاً))</h6>
+                                <p class="text-xs text-gray-300 mt-1">فقد يقال بحرمة البكاء، كما ورد عن بعض أهل السُّنة والجماعة، إلا أنه لا دليل على حرمة البكاء على الميت، ولا أقل من عدم وجود دليل مشترك بين الطرفين، هذا إن لم نقول بأن الإجماع على خلافه... وحينئذ فيكون مشمولاً لأصل الحِلِيَّة.</p>
+                            </div>
+
+                            <div class="bg-sadrDark p-3 rounded-lg border-r-4 border-sadrGold my-3">
+                                <h6 class="font-bold text-sadrGold">الفصل الثاني: البكاء على الإمام الحسين (السلام عليه)</h6>
+                                <p class="text-xs text-gray-300 mt-1">فإننا بعد أن تمكنّا من إثبات حلية البكاء، يمكننا أن نستدل على استحباب البكاء على الإمام الحسين، والكلام هنا على صعيدين: الصعيد الشرعي أو الفقهي بالسُّنة الشريفة حيث أن هناك الكثير من الروايات الدالة على ذلك.</p>
+                            </div>
+
+                            <div class="bg-sadrDark p-3 rounded-lg border-r-4 border-sadrGold my-3">
+                                <h6 class="font-bold text-sadrGold">الفصل الثالث: (البكاؤون)</h6>
+                                <p class="text-xs text-gray-300 mt-1">ثم نلحق بذلك فصلاً مهماً ذا صلة بالموضوع، وهو ما يتعلق بالبكائين، حيث ورد في الرواية: (البكاؤون خمسة: آدم ويعقوب ويوسف وفاطمة بنت محمد وعلي بن الحسين سلام الله عليهم).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center pt-2">
+                        <button onclick="goBack()" class="px-6 py-2 bg-sadrGold text-black font-bold rounded-lg shadow hover:bg-yellow-400 transition-colors">العودة للخيارات</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function goBack() {
+            if (navigationStack.length > 0) {
+                const prev = navigationStack.pop();
+                if (navigationStack.length === 0) {
+                    document.getElementById('back-btn').classList.add('hidden');
+                }
+                prev();
+            } else {
+                renderHome();
+            }
+        }
+
+        function goHome() {
+            renderHome();
+        }
+    </script>
+</body>
+</html>
